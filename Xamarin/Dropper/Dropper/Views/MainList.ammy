@@ -1,4 +1,0 @@
-﻿using Syncfusion.ListView
-ContentPage "Dropper.Views.MainList" {
-	Label { "Hello, Dropper!" }
-}
