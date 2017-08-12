@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Services\DatabaseControllerIOS.cs" />
     <Compile Include="Services\ReceiverIOS.cs" />
     <Compile Include="Services\SenderIOS.cs" />
     <None Include="Entitlements.plist" />

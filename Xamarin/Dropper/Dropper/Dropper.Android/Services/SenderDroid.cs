@@ -20,7 +20,7 @@ namespace Dropper.Droid.Services
             var opts = new DatabaseOptions();
 
             // To use this feature, add the Couchbase.Lite.Storage.ForestDB nuget package
-            opts.StorageType = DatabaseOptions.FORESTDB_STORAGE;
+            opts.StorageType = StorageEngineTypes.ForestDB;
             Database = Manager.SharedInstance.OpenDatabase(credentials.DatabaseName, opts);
 
             if (Database == null)

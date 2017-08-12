@@ -1,0 +1,1 @@
+<ContentPage x:Class="Dropper.MainPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ns0="clr-namespace:AmmySidekick;assembly=AmmySidekick" ns0:Ammy.Register="/Dropper;component/MainPage.g.xaml"/>
