@@ -15,13 +15,16 @@ namespace Dropper.iOS.Services
 
         public Task Add(FileData data)
         {
-            var doc = db.CreateDocument();
-            doc.PutProperties(data.ToDictionary());
+            return Task.Run(() =>
+            {
+                var doc = db.CreateDocument();
+                doc.PutProperties(data.ToDictionary());
+            });
         }
 
         public Task Delete(string docId)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => db.DeleteLocalDocument(docId));
         }
 
         public void Dispose()

@@ -4,25 +4,34 @@ using System.Threading.Tasks;
 using Dropper.Models;
 using Dropper.Services;
 using Dropper.Droid.Services;
+using Couchbase.Lite;
 
 [assembly: Xamarin.Forms.Dependency(typeof(DatabaseControllerDroid))]
 namespace Dropper.Droid.Services
 {
     public class DatabaseControllerDroid : IDatabaseController
     {
+        private Database db;
+
         public Task Add(FileData data)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var doc = db.CreateDocument();
+                doc.PutProperties(data.ToDictionary());
+            });
         }
 
         public Task Delete(string docId)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => db.DeleteLocalDocument(docId));
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (db == null) return;
+            db.Dispose();
+            db = null;
         }
 
         public Task<List<FileData>> GetAllDocs()
@@ -35,9 +44,14 @@ namespace Dropper.Droid.Services
             throw new NotImplementedException();
         }
 
-        public Task Init(string databaseName)
+        public async Task Init(string databaseName)
         {
-            throw new NotImplementedException();
+            if (db != null)
+            {
+                await db.Close();
+                db.Dispose();
+            }
+            db = Manager.SharedInstance.GetDatabase(databaseName);
         }
     }
 }
