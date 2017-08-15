@@ -47,6 +47,9 @@
     <Compile Include="Services\IDatabaseController.cs" />
     <Compile Include="Services\IReceiver.cs" />
     <Compile Include="Services\ISender.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RelayCommand .cs" />
+    <Compile Include="ViewModels\ViewModelBase .cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -102,7 +105,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
