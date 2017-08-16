@@ -47,9 +47,13 @@
     <Compile Include="Services\IDatabaseController.cs" />
     <Compile Include="Services\IReceiver.cs" />
     <Compile Include="Services\ISender.cs" />
+    <Compile Include="ViewModels\DropDetailsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand .cs" />
     <Compile Include="ViewModels\ViewModelBase .cs" />
+    <Compile Include="Views\CodeGeneratorView.ammy.cs">
+      <DependentUpon>CodeGeneratorView.ammy</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -103,9 +107,14 @@
     <None Include="lib.ammy" />
     <None Include="MainPage.ammy" />
     <None Include="packages.config" />
+    <None Include="Views\CodeGeneratorView.ammy" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
+    <None Include="Views\CodeGeneratorView.g.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <DependentUpon>CodeGeneratorView.ammy</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="MainPage.g.xaml">
