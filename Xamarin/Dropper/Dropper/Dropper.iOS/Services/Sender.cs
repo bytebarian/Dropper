@@ -3,10 +3,10 @@ using Dropper.iOS.Services;
 using Dropper.Services;
 using System;
 
-[assembly: Xamarin.Forms.Dependency(typeof(SenderIOS))]
+[assembly: Xamarin.Forms.Dependency(typeof(Sender))]
 namespace Dropper.iOS.Services
 {
-    public class SenderIOS : ISender
+    public class Sender : ISender
     {
         static readonly string Tag = "Dropper";
         Database Database { get; set; }

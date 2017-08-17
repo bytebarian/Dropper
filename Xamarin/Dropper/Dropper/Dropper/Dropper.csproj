@@ -45,8 +45,10 @@
     <Compile Include="Models\FileData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDatabaseController.cs" />
+    <Compile Include="Services\IIPAddressService.cs" />
     <Compile Include="Services\IReceiver.cs" />
     <Compile Include="Services\ISender.cs" />
+    <Compile Include="Services\ListeningService.cs" />
     <Compile Include="ViewModels\DropDetailsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand .cs" />

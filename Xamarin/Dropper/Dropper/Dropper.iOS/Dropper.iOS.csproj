@@ -90,9 +90,10 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Services\DatabaseControllerIOS.cs" />
-    <Compile Include="Services\ReceiverIOS.cs" />
-    <Compile Include="Services\SenderIOS.cs" />
+    <Compile Include="Services\DatabaseController.cs" />
+    <Compile Include="Services\IPAddressService.cs" />
+    <Compile Include="Services\Receiver.cs" />
+    <Compile Include="Services\Sender.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />

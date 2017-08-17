@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dropper.Models;
 using Dropper.Services;
-using Dropper.iOS.Services;
+using Dropper.Droid.Services;
 using Couchbase.Lite;
 
-[assembly: Xamarin.Forms.Dependency(typeof(DatabaseControllerIOS))]
-namespace Dropper.iOS.Services
+[assembly: Xamarin.Forms.Dependency(typeof(DatabaseController))]
+namespace Dropper.Droid.Services
 {
-    public class DatabaseControllerIOS : IDatabaseController
+    public class DatabaseController : IDatabaseController
     {
         private Database db;
 
@@ -46,7 +46,7 @@ namespace Dropper.iOS.Services
 
         public async Task Init(string databaseName)
         {
-            if(db != null)
+            if (db != null)
             {
                 await db.Close();
                 db.Dispose();

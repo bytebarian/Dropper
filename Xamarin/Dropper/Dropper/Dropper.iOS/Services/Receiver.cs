@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using Dropper.Services;
 using Couchbase.Lite.Listener;
 using Couchbase.Lite.Listener.Tcp;
 using Couchbase.Lite;
-using Dropper.Services;
-using Dropper.Droid.Services;
+using System.Collections.Generic;
+using Dropper.iOS.Services;
 
-[assembly: Xamarin.Forms.Dependency(typeof(ReceiverDroid))]
-namespace Dropper.Droid.Services
+[assembly: Xamarin.Forms.Dependency(typeof(Receiver))]
+namespace Dropper.iOS.Services
 {
-    public class ReceiverDroid : IReceiver
+    class Receiver : IReceiver
     {
         CouchbaseLiteServiceListener _listener;
 
         public Credentials Credentials { get; private set; }
 
-        public void Initialize(Credentials cerdentials)
+        public void Initialize(Credentials credentials)
         {
-            Credentials = cerdentials;
+            Credentials = credentials;
 
             _listener = new CouchbaseLiteTcpListener(Manager.SharedInstance, Credentials.Port, CouchbaseLiteTcpOptions.AllowBasicAuth);
             _listener.SetPasswords(new Dictionary<string, string>

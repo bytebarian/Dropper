@@ -18,9 +18,14 @@ namespace Dropper.ViewModels
 
         private async Task GenerateCode()
         {
+            string ipaddress = DependencyService.Get<IIPAddressService>().GetIPAddress();
+
+            if (string.IsNullOrEmpty(ipaddress)) return;
+
             var credentials = new Credentials();
             credentials.Login = Guid.NewGuid().ToString();
             credentials.Password = Guid.NewGuid().ToString();
+            credentials.SyncGatewayUrl = string.Format("http://{0}:{1}/{2}", ipaddress, credentials.Port, credentials.DatabaseName);
 
             var receiver = DependencyService.Get<IReceiver>();
             receiver.Initialize(credentials);
@@ -35,7 +40,7 @@ namespace Dropper.ViewModels
             barcode.BarcodeOptions.Width = 600;
             barcode.BarcodeOptions.Height = 600;
             barcode.BarcodeOptions.Margin = 10;
-            barcode.BarcodeValue = string.Format("{0};{1}", credentials.Login, credentials.Password);
+            barcode.BarcodeValue = string.Format("{0};{1};{2}", credentials.SyncGatewayUrl, credentials.Login, credentials.Password);
 
             var page = new CodeGeneratorView();
             page.Content = barcode;

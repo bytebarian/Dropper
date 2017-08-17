@@ -3,10 +3,10 @@ using Dropper.Droid.Services;
 using Dropper.Services;
 using Android.Util;
 
-[assembly: Xamarin.Forms.Dependency(typeof(SenderDroid))]
+[assembly: Xamarin.Forms.Dependency(typeof(Sender))]
 namespace Dropper.Droid.Services
 {
-    public class SenderDroid : ISender
+    public class Sender : ISender
     {
         static readonly string Tag = "Dropper";
 
