@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dropper.Models;
 using Dropper.Services;
 using Dropper.iOS.Services;
 using Couchbase.Lite;
+using System.Linq;
+using System;
 
 [assembly: Xamarin.Forms.Dependency(typeof(DatabaseController))]
 namespace Dropper.iOS.Services
@@ -13,12 +14,17 @@ namespace Dropper.iOS.Services
     {
         private Database db;
 
-        public Task Add(FileData data)
+        public event EventHandler DocumentChanged;
+
+        public Task Add(FileModel data)
         {
             return Task.Run(() =>
             {
                 var doc = db.CreateDocument();
-                doc.PutProperties(data.ToDictionary());
+                var newRev = doc.CreateRevision();
+                newRev.SetAttachment(data.Name, data.ContentType, data.Stream);
+                newRev.SetProperties(data.ToDictionary());
+                newRev.Save();
             });
         }
 
@@ -34,14 +40,21 @@ namespace Dropper.iOS.Services
             db = null;
         }
 
-        public Task<List<FileData>> GetAllDocs()
+        public async Task<IEnumerable<FileModel>> GetAllDocs()
         {
-            throw new NotImplementedException();
+            var query = db.CreateAllDocumentsQuery();
+            query.AllDocsMode = AllDocsMode.AllDocs;
+            var rows = await query.RunAsync();
+            return rows.Select(x => new FileModel(x.AsJSONDictionary()));
         }
 
-        public Task<FileData> GetDoc(string docId)
+        public Task<FileModel> GetDoc(string docId)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var doc = db.GetDocument(docId);
+                return new FileModel(doc.CurrentRevision.Properties);
+            });
         }
 
         public async Task Init(string databaseName)
@@ -52,6 +65,12 @@ namespace Dropper.iOS.Services
                 db.Dispose();
             }
             db = Manager.SharedInstance.GetDatabase(databaseName);
+            db.Changed += Db_Changed;
+        }
+
+        private void Db_Changed(object sender, DatabaseChangeEventArgs e)
+        {
+            DocumentChanged(this, null);
         }
     }
 }

@@ -8,9 +8,10 @@ namespace Dropper.Services
     public interface IDatabaseController : IDisposable
     {
         Task Init(string databaseName);
-        Task Add(FileData data);
+        Task Add(FileModel data);
         Task Delete(string docId);
-        Task<FileData> GetDoc(string docId);
-        Task<List<FileData>> GetAllDocs(); 
+        Task<FileModel> GetDoc(string docId);
+        Task<IEnumerable<FileModel>> GetAllDocs();
+        event EventHandler DocumentChanged;
     }
 }

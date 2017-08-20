@@ -10,6 +10,8 @@ namespace Dropper.ViewModels
     public class DropDetailsViewModel : ViewModelBase
     {
         private RelayCommand _generateCodeCommand;
+        private string _dropName;
+        private IDatabaseController _databaseController;
 
         public RelayCommand GenerateCodeCommand
         {
@@ -20,12 +22,13 @@ namespace Dropper.ViewModels
         {
             string ipaddress = DependencyService.Get<IIPAddressService>().GetIPAddress();
 
-            if (string.IsNullOrEmpty(ipaddress)) return;
+            if (string.IsNullOrEmpty(ipaddress) || string.IsNullOrEmpty(_dropName)) return;
 
             var credentials = new Credentials();
             credentials.Login = Guid.NewGuid().ToString();
             credentials.Password = Guid.NewGuid().ToString();
-            credentials.SyncGatewayUrl = string.Format("http://{0}:{1}/{2}", ipaddress, credentials.Port, credentials.DatabaseName);
+            credentials.Port = 5432;
+            credentials.SyncGatewayUrl = string.Format("http://{0}:{1}/{2}", ipaddress, credentials.Port, _dropName);
 
             var receiver = DependencyService.Get<IReceiver>();
             receiver.Initialize(credentials);
@@ -46,6 +49,11 @@ namespace Dropper.ViewModels
             page.Content = barcode;
 
             await Application.Current.MainPage.Navigation.PushAsync(page);
+        }
+
+        private void StartListening()
+        {
+            
         }
     }
 }
