@@ -1,6 +1,9 @@
-﻿using Dropper.Services;
+﻿using Dropper.Models;
+using Dropper.Services;
 using Dropper.Views;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using ZXing.Net.Mobile.Forms;
@@ -12,6 +15,16 @@ namespace Dropper.ViewModels
         private RelayCommand _generateCodeCommand;
         private string _dropName;
         private IDatabaseController _databaseController;
+        private IFileService _fileService;
+
+        private List<FileModel> _files;
+
+        public DropDetailsViewModel()
+        {
+            _databaseController = DependencyService.Get<IDatabaseController>();
+            _fileService = new FileService();
+            _files = new List<FileModel>();
+        }
 
         public RelayCommand GenerateCodeCommand
         {
@@ -22,7 +35,9 @@ namespace Dropper.ViewModels
         {
             string ipaddress = DependencyService.Get<IIPAddressService>().GetIPAddress();
 
-            if (string.IsNullOrEmpty(ipaddress) || string.IsNullOrEmpty(_dropName)) return;
+            if (string.IsNullOrEmpty(ipaddress) 
+                || string.IsNullOrEmpty(_dropName)
+                || !_files.Any()) return;
 
             var credentials = new Credentials();
             credentials.Login = Guid.NewGuid().ToString();
@@ -51,9 +66,20 @@ namespace Dropper.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
-        private void StartListening()
+        private async Task Save()
         {
-            
+            if (string.IsNullOrEmpty(_dropName)) return;
+            await _databaseController.Init(_dropName);
+            foreach(var file in _files)
+            {
+                await _databaseController.Add(file);
+            }
+        }
+
+        private async Task PickFile()
+        {
+            var file = await _fileService.PickFileAsync();
+            _files.Add(file);
         }
     }
 }
