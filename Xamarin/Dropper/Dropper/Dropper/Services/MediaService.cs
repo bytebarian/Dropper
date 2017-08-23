@@ -40,5 +40,10 @@ namespace Dropper.Services
                 Stream = mediaFile.GetStream()
             };
         }
+
+        public Task SaveFileAsync(FileModel file)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

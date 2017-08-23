@@ -14,7 +14,7 @@ namespace Dropper.iOS.Services
     {
         private Database db;
 
-        public event EventHandler DocumentChanged;
+        public event EventHandler<DatabaseChangedEventArgs> DatabaseChanged;
 
         public Task Add(FileModel data)
         {
@@ -70,7 +70,10 @@ namespace Dropper.iOS.Services
 
         private void Db_Changed(object sender, DatabaseChangeEventArgs e)
         {
-            DocumentChanged(this, null);
+            foreach(var change in e.Changes)
+            {
+                DatabaseChanged(this, new DatabaseChangedEventArgs(change.DocumentId));
+            }
         }
     }
 }

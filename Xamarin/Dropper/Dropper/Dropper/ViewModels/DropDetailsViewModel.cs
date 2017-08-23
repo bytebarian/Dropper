@@ -47,6 +47,7 @@ namespace Dropper.ViewModels
 
             var receiver = DependencyService.Get<IReceiver>();
             receiver.Initialize(credentials);
+            _databaseController.DatabaseChanged += async (sender, args) => await DatabaseChanged(args);
 
             var barcode = new ZXingBarcodeImageView
             {
@@ -64,6 +65,13 @@ namespace Dropper.ViewModels
             page.Content = barcode;
 
             await Application.Current.MainPage.Navigation.PushAsync(page);
+        }
+
+        private async Task DatabaseChanged(DatabaseChangedEventArgs e)
+        {
+            var file = await _databaseController.GetDoc(e.DocumentId);
+            await _fileService.SaveFileAsync(file);
+            _files.Add(file);
         }
 
         private async Task Save()

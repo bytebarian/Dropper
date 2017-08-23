@@ -30,5 +30,26 @@ namespace Dropper.Services
                 //handle exception
             }
         }
+
+        public async Task SaveFileAsync(FileModel file)
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.Stream.CopyTo(ms);
+                    await CrossFilePicker.Current.SaveFile(new FileData
+                    {
+                        DataArray = ms.ToArray(),
+                        FileName = file.Name
+                    });
+                }   
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //handle exception
+            }
+        }
     }
 }

@@ -12,6 +12,15 @@ namespace Dropper.Services
         Task Delete(string docId);
         Task<FileModel> GetDoc(string docId);
         Task<IEnumerable<FileModel>> GetAllDocs();
-        event EventHandler DocumentChanged;
+        event EventHandler<DatabaseChangedEventArgs> DatabaseChanged;
+    }
+
+    public class DatabaseChangedEventArgs : EventArgs
+    {
+        public DatabaseChangedEventArgs(string docId)
+        {
+            DocumentId = docId;
+        }
+        public string DocumentId { get; private set; }
     }
 }
