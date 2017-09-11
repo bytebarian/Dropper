@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dropper.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Dropper
     {
         public MainPage()
         {
+            BindingContext = new MainViewModel();
             InitializeComponent();
         }
     }

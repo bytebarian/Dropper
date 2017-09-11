@@ -1,1 +1,24 @@
-<ContentPage x:Class="Dropper.MainPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ns0="clr-namespace:AmmySidekick;assembly=AmmySidekick" ns0:Ammy.Register="/Dropper;component/MainPage.g.xaml"/>
+<ContentPage x:Class="Dropper.MainPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ns0="clr-namespace:AmmySidekick;assembly=AmmySidekick" ns0:Ammy.Register="/Dropper;component/MainPage.g.xaml">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="50"/>
+    </Grid.ColumnDefinitions>
+    <Button Text="Add File" Grid.Column="0">
+      <Button.Command>
+        <Binding Path="PickFileCommand"/>
+      </Button.Command>
+    </Button>
+    <Button Text="Get Drop" Grid.Column="1">
+      <Button.Command>
+        <Binding Path="SyncCommand"/>
+      </Button.Command>
+    </Button>
+    <Button Text="Share Drop" Grid.Column="2">
+      <Button.Command>
+        <Binding Path="GenerateCodeCommand"/>
+      </Button.Command>
+    </Button>
+  </Grid>
+</ContentPage>

@@ -1,2 +1,9 @@
 ﻿ContentPage "Dropper.MainPage" {
+	Grid { 
+		#ThreeColumns(50, 50, 50)
+		Button { Text: "Add File", Grid.Column: 0, Command: bind PickFileCommand }
+		Button { Text: "Get Drop", Grid.Column: 1, Command: bind SyncCommand }
+		Button { Text: "Share Drop", Grid.Column: 2, Command: bind GenerateCodeCommand }
+	}
+	
 }
