@@ -10,20 +10,27 @@ using ZXing.Net.Mobile.Forms;
 
 namespace Dropper.ViewModels
 {
-    public class DropDetailsViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
+        private RelayCommand _syncCommand;
         private RelayCommand _generateCodeCommand;
+        private RelayCommand _pickFileCommand;
         private string _dropName;
         private IDatabaseController _databaseController;
         private IFileService _fileService;
 
         private List<FileModel> _files;
 
-        public DropDetailsViewModel()
+        public MainViewModel()
         {
             _databaseController = DependencyService.Get<IDatabaseController>();
             _fileService = new FileService();
             _files = new List<FileModel>();
+        }
+
+        public RelayCommand SyncCommand
+        {
+            get { return _syncCommand ?? (_syncCommand = new RelayCommand(async (args) => { await ScanCode(); })); }
         }
 
         public RelayCommand GenerateCodeCommand
@@ -31,11 +38,34 @@ namespace Dropper.ViewModels
             get { return _generateCodeCommand ?? (_generateCodeCommand = new RelayCommand(async (args) => { await GenerateCode(); })); }
         }
 
+        public RelayCommand PickFileCommand
+        {
+            get { return _pickFileCommand ?? (_pickFileCommand = new RelayCommand(async (args) => { await PickFile(); })); }
+        }
+
+        public async Task ScanCode()
+        {
+            var scanPage = new ZXingScannerPage();
+
+            scanPage.OnScanResult += (result) => {
+                // Stop scanning
+                scanPage.IsScanning = false;
+
+                // Pop the page and show the result
+                Device.BeginInvokeOnMainThread(() => {
+                    Application.Current.MainPage.Navigation.PopAsync();
+                });
+            };
+
+            // Navigate to our scanner page
+            await Application.Current.MainPage.Navigation.PushAsync(scanPage);
+        }
+
         private async Task GenerateCode()
         {
             string ipaddress = DependencyService.Get<IIPAddressService>().GetIPAddress();
 
-            if (string.IsNullOrEmpty(ipaddress) 
+            if (string.IsNullOrEmpty(ipaddress)
                 || string.IsNullOrEmpty(_dropName)
                 || !_files.Any()) return;
 
@@ -78,7 +108,7 @@ namespace Dropper.ViewModels
         {
             if (string.IsNullOrEmpty(_dropName)) return;
             await _databaseController.Init(_dropName);
-            foreach(var file in _files)
+            foreach (var file in _files)
             {
                 await _databaseController.Add(file);
             }
